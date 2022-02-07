@@ -1,0 +1,291 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Edit
+{% endblock %}
+
+{% block main %}
+
+<style>
+.info {
+        margin-left: auto;
+        margin-right: auto;
+        padding: 10px;
+        width: 90%;
+        text-align: center;
+}
+
+th {
+        border-top: 1px solid black;
+        border-bottom: 1px solid black;
+    }
+</style>
+
+ <script>
+    var members = {
+        "A": {
+            {% for item in TeamA %}
+                {{item}}: [],
+            {% endfor %}
+        },
+        "K": {
+            {% for item in TeamK %}
+                {{item}}: [],
+            {% endfor %}
+        },
+        "B": {
+            {% for item in TeamB %}
+                {{item}}: [],
+            {% endfor %}
+        },
+        "4": {
+            {% for item in Team4 %}
+                {{item}}: [],
+            {% endfor %}
+        },
+        "8": {
+            {% for item in Team8 %}
+                {{item}}: [],
+            {% endfor %}
+        }
+  }
+
+    window.onload = function() {
+
+        var TeamSel = document.getElementById("team");
+        var MemberSel = document.getElementById("member");
+        var TeamSel2 = document.getElementById("team2");
+        var MemberSel2 = document.getElementById("cheer");
+        for (var x in members) {
+            TeamSel.options[TeamSel.options.length] = new Option(x, x);
+            TeamSel2.options[TeamSel2.options.length] = new Option(x, x);
+        }
+
+        TeamSel.onchange = function() {
+        //empty Members- dropdowns
+            MemberSel.length = 1;
+            TeamSel.style.backgroundColor = 'white';
+            //display correct values
+            for (var y in members[this.value]) {
+            MemberSel.options[MemberSel.options.length] = new Option(y, y);
+            }
+        }
+
+        TeamSel2.onchange = function() {
+        //empty Members- dropdowns
+            MemberSel2.length = 1;
+            TeamSel2.style.backgroundColor = 'white';
+            //display correct values
+            for (var y in members[this.value]) {
+            MemberSel2.options[MemberSel2.options.length] = new Option(y, y);
+            }
+        }
+
+        var emptycheck  = document.querySelectorAll('.emptycheck');
+        for (let i = 0; i < emptycheck.length; i++) {
+            emptycheck[i].addEventListener('change', function()
+                    {
+                        if (emptycheck[i].value != 0)
+                        {emptycheck[i].style.backgroundColor = 'transparent';}
+                    })
+        };
+
+        //TODO: change the colour if the select field is not empty
+
+        var dropdowncheck  = document.querySelectorAll('.dropdowncheck');
+        for (let j = 0; j < dropdowncheck.length; j++) {
+            dropdowncheck[j].addEventListener('onchange', function()
+                    {
+                        dropdowncheck[j].style.backgroundColor = 'white';
+                    })
+        };
+
+    }
+
+    </script>
+
+<h2>Current Statistic</h2>
+
+<table class="info">
+
+    <thead>
+        <tr>
+            <th>Theme</th>
+            <th>Team</th>
+            <th>Member</th>
+            <th>Singing</th>
+            <th>Dancing</th>
+            <th>Variety</th>
+            <th>Style</th>
+            <th>Skill Type</th>
+            <th>Skill Target</th>
+            <th>Skill Rate</th>
+            <th>Cheer For</th>
+            <th>Cheering Attribute</th>
+            <th>Cheer Rate</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- TODO: Loop through the database entries to display them in this table -->
+        {% for item in card %}
+            <tr>
+                <td>{{ item.theme }}</td>
+                <td>{{ item.team }}</td>
+                <td>{{ item.member }}</td>
+                <td>{{ item.Singing }}</td>
+                <td>{{ item.Dancing }}</td>
+                <td>{{ item.Variety }}</td>
+                <td>{{ item.Style }}</td>
+                <td>{{ item.skill_type }}</td>
+                <td>{{ item.skill_target }}</td>
+                <td>{{ item.skill_rate }}</td>
+                <td>{{ item.cheer }}</td>
+                <td>{{ item.cheer_skill }}</td>
+                <td>{{ item.cheer_rate }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<br>
+<br>
+
+<h2>Editing</h2>
+
+
+    <style>
+    .inputting {
+        margin-left: auto;
+        margin-right: auto;
+        text-align: left;
+        padding: 20px;
+        width: 50%;
+        }
+
+
+    </style>
+
+    <form action="/edit" method="post">
+        id:
+        <input type="text" id="id" name="id" value={{id}} size="5" readonly><br><br>
+        <table class="inputting">
+            <colgroup>
+                <col span="1" style="width: 3%;">
+                <col span="1" style="width: 20%;">
+                <col span="1" style="width: 3%;">
+                <col span="1" style="width: 20%;">
+            </colgroup>
+
+        <tr>
+            <th>Card</th>
+            <th></th>
+            <th>Attribute</th>
+            <th></th>
+        </tr>
+        <tr>
+            <td>Theme:</td>
+            <td>
+                <select name="theme" id="theme" class="dropdowncheck">
+                <option value="">Theme</option>
+                {% for item in themes %}
+                    <option value="{{ item }}">{{ item }}</option>
+                {% endfor %}
+                </select>
+            </td>
+            <td>Singing: </td>
+            {# add Japanese name/icon of the attribute#}
+            <td>
+            <input type="number" id="Singing" name="Singing" value="Singing" class="emptycheck"></td>
+        </tr>
+        <tr>
+            <td> Team: </td>
+            <td>
+                <select name="team" id="team" class="dropdowncheck">
+                 <option value="" selected="selected">Team</option>
+                </select>
+            </td>
+            <td> Dancing: </td>
+            <td><input type="number" id="Dancing" name="Dancing" value="Dancing" class="emptycheck"></td>
+        </tr>
+        <tr>
+            <td> Member:  </td>
+            <td><select name="member" id="member" class="dropdowncheck">
+                 <option value="" selected="selected">Member</option>
+                </select></td>
+            <td> Variety: </td>
+            <td><input type="number" id="Variety" name="Variety" value="Variety" class="emptycheck"></td>
+        </tr>
+            <tr>
+            <td> </td>
+            <td> </td>
+            <td> Style: </td><td> <input type="number" id="Style" name="Style" value="Style" class="emptycheck"></td>
+        </tr>
+            <tr>
+            <td><br></td>
+            <td> </td>
+            <td> </td>
+            <td></td>
+        </tr>
+        <tr>
+            <th>Skill</th>
+            <th></th>
+            <th>Cheers</th>
+            <th></th>
+        </tr>
+        <tr>
+            <td>Target</td>
+            <td>
+            <select name="skill_target" id="skill_target" class="dropdowncheck">
+                <option value="" disabled selected>Target</option>
+                <option value="Herself">Herself</option>
+                <option value="Her Team">Her Team</option>
+                <option value="all">All</option>
+                <option value="OTeamA">Oppoent - TeamA</option>
+                <option value="OTeamK">Oppoent - TeamK</option>
+                <option value="OTeamB">Oppoent - TeamB</option>
+                <option value="OTeam4">Oppoent - Team4</option>
+                <option value="OTeam8">Oppoent - Team8</option>
+                </select>
+                </td>
+            <td> Member: </td>
+            <td><select name="team" id="team2" class="dropdowncheck">
+                 <option value="" selected="selected">Team</option>
+                </select>
+                <select name="cheer" id="cheer" class="dropdowncheck">
+                 <option value="" selected="selected">Member</option>
+                </select></td>
+        </tr>
+        <tr>
+            <td> Attribute: </td>
+            <td><select name="skill_type" id="skill_type" class="dropdowncheck">
+                <option value="" disabled selected>Attribute</option>
+                <option value="Singing">Singing</option>
+                <option value="Dancing">Dancing</option>
+                <option value="Variety">Variety</option>
+                <option value="Style">Style</option>
+                </select>
+                </td>
+            <td> Attribute: </td>
+            <td><select name="cheer_skill" id="cheer_skill" class="dropdowncheck">
+                <option value="" disabled selected>Attribute</option>
+                <option value="Singing">Singing</option>
+                <option value="Dancing">Dancing</option>
+                <option value="Variety">Variety</option>
+                <option value="Style">Style</option>
+                </select></td>
+        </tr>
+        <tr>
+            <td> Rate: </td>
+            <td><input type="number" id="skill_rate" name="skill_rate" size="10" class="emptycheck">%</td>
+            <td> Rate: </td>
+            <td><input type="number" id="cheer_rate" name="cheer_rate" size="10" class="emptycheck">%</td>
+        </tr>
+        </table>
+        <br>
+                <button class="btn btn-dark" id="submit" name="submit" value="submit" type="submit">Submit</button>
+    </form>
+    <br>
+
+
+
+{% endblock %}

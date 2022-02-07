@@ -1,0 +1,89 @@
+<!--input data for calculation-->
+
+{% extends "layout.html" %}
+
+{% block title %}
+    Simulation
+{% endblock %}
+
+{% block main %}
+
+
+
+<div class=disclaimer>
+  <h2 class="disclaimer"> Disclaimer </h2>
+
+  <ol class="disclaimer">
+    <li>The final score is only for reference; there are still some unidentified factors that slightly affect the score.</li>
+    <li>Depending on the skill level of the cards, some skills might be easier to activate than others. However, this calculator would not take that into account.</li>
+    <li>The calculator can only deals with skills applying on the card itself/member in the same team, which may cause huge differences between the predicted score and the actual score in VS Battle.  </li>
+</ol>
+
+</div>
+<form action="/calculator" method="post">
+
+
+  <h1> About your team </h1>
+  Production skill: <input type="production" id="production" name="production"  size="10">&nbsp;
+  <h1> Today's Bouns </h1>
+  Target: <select name="today_target" id="today_target">
+  <option value="A">TeamA</option>
+                <option value="K">TeamK</option>
+                <option value="B">TeamB</option>
+                <option value="4">Team4</option>
+                <option value="8">Team8</option>
+                <option value="all">All</option>
+                </select>
+                &nbsp;&nbsp;
+  Skill Type: <select name="today_skill" id="today_skill">
+                <option value="Singing">Singing</option>
+                <option value="Dancing">Dancing</option>
+                <option value="Variety">Variety</option>
+                <option value="Style">Style</option>
+                <option value="All">All</option> </select>
+                &nbsp;&nbsp;
+  Rate: <input type="number" id="bonus_rate" name="bonus_rate" value="bonus_rate" size="10">%
+  <br>
+  <br>
+
+  <h1> About the level </h2>
+
+  Type of your level:
+  <select name="level" id="level">
+  <option value="Main">Main Story</option>
+                <option value="A">TeamA Story</option>
+                <option value="K">TeamK Story</option>
+                <option value="B">TeamB Story</option>
+                <option value="4">Team4 Story</option>
+                <option value="8">Team8 Story</option>
+                <option value="SP">SP</option>
+                <option value="VS">VS</option>
+                </select>
+                <br>
+  <h2> Level Weighting </h2>
+  <p> For example, if the level shows singing as "-20%", please input "-20"; if the level shows variety as "+300%", please input "+300". Default value is "+100"(%)</p>
+  Singing: <input type="number" id="Singing" name="Singing" value="0" size="10">&nbsp;
+  Dancing: <input type="number" id="Dancing" name="Dancing" value="0" size="10">&nbsp;
+  Variety: <input type="number" id="Variety" name="Variety" value="0" size="10">&nbsp;
+  Style: <input type="number" id="Style" name="Style" value="0" size="10">
+  <h2> The opponent </h2>
+  Target Score: <input type="number" id="target" name="target" value="target" size="10">&nbsp;
+  <br>
+  Do all the cards from the opponents come from the same team?
+  <select name="opponent" id="opponent">
+                <option value="No">No/ N.A.</option>
+                <option value="TeamA">Yes, TeamA</option>
+                <option value="TeamK">Yes, TeamK</option>
+                <option value="TeamB">Yes, TeamB</option>
+                <option value="Team4">Yes, Team4</option>
+                <option value="Team8">Yes, Team8</option>
+                 </select>
+    <br>
+    <br>
+
+  <br><br><button class="btn btn-dark" id="submit" name="submit" value="submit">Submit</button>
+
+</form>
+
+{% endblock %}
+
